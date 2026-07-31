@@ -1,5 +1,6 @@
-const { Command } = require("commander");
-const { initCommand } = require("./commands/init");
+import { Command } from "commander";
+import { addCommand } from "./commands/add";
+import { initCommand } from "./commands/init";
 
 const program = new Command()
 
@@ -12,5 +13,10 @@ program
   .command("init")
   .description("initialize a new repo")
   .action(initCommand)
+
+program
+  .command("add <path>")
+  .description("Stage a file")
+  .action(addCommand(filePath));
 
 export { program }
