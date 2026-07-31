@@ -5,24 +5,28 @@ export class Commit {
     this.tree = data.tree;
     this.parents = data.parents ?? [];
     this.author = data.author;
-    this.timestamp = data.timestamp;
+    this.committer = data.committer ?? data.author;
+    this.timestamp = data.timestamp ?? Date.now();
     this.message = data.message;
   }
 
-  async save() {
-    const content = Buffer.from(
+  serialize() {
+    return Buffer.from(
       JSON.stringify({
         tree: this.tree,
         parents: this.parents,
         author: this.author,
+        committer: this.committer,
         timestamp: this.timestamp,
         message: this.message
       })
     );
+  }
 
+  async save() {
     return this.objectStore.write(
       "commit",
-      content
+      this.serialize()
     );
   }
 
@@ -39,15 +43,23 @@ export class Commit {
     );
   }
 
-  getMessage() {
-    return this.message;
-  }
-
   getTree() {
     return this.tree;
   }
 
   getParents() {
-    return this.parents;
+    return [...this.parents];
+  }
+
+  getMessage() {
+    return this.message;
+  }
+
+  getAuthor() {
+    return this.author;
+  }
+
+  getTimestamp() {
+    return this.timestamp;
   }
 }

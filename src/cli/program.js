@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import { addCommand } from "./commands/add";
 import { initCommand } from "./commands/init";
+import { commitCommand } from "./commands/commit";
 
 const program = new Command()
 
@@ -18,5 +19,11 @@ program
   .command("add <path>")
   .description("Stage a file")
   .action(addCommand(filePath));
+
+program
+  .command("commit")
+  .description("Create a new commit")
+  .requiredOption("-m, --message <message>", "Commit message")
+  .action(commitCommand);
 
 export { program }
