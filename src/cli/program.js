@@ -2,6 +2,7 @@ import { Command } from "commander";
 import { addCommand } from "./commands/add";
 import { initCommand } from "./commands/init";
 import { commitCommand } from "./commands/commit";
+import { logCommand } from "./commands/log";
 
 const program = new Command()
 
@@ -25,5 +26,10 @@ program
   .description("Create a new commit")
   .requiredOption("-m, --message <message>", "Commit message")
   .action(commitCommand);
+
+program
+  .command("log")
+  .description("Show commit history")
+  .action(logCommand);
 
 export { program }
